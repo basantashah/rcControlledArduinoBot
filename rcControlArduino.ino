@@ -26,6 +26,11 @@ int INPUTRight4 = 20;
 int rcRemoteLeftConfig = 22;
 int rcRemoteRightConfig = 23;
 
+// set motor value (default)
+int rightSideMotors = 0;
+int leftSideMotors = 0;
+int speedValueOfMotors = 0;
+
 // Add setup for pin mode configuration and baud rate setting
 void setup()
 {
@@ -59,4 +64,37 @@ void setup()
 
     // set the serial output baud rate
     Serial.begins(9600);
+}
+
+void loop()
+{
+    speedValueOfMotors = map(pulseIn(22, HIGH), 1100, 1900, 0, 255);
+    rightSideMotors = SpeedValue - map(pulseIn(23, HIGH), 1000, 2000, -70, 70);
+    leftSideMotors = SpeedValue - map(pulseIn(23, HIGH), 1000, 2000, +70, -70);
+
+    // to see the value of rc remote lets use serial print
+    Serial.print("RIGHT MOTORS: ");
+    Serial.print(rightSideMotors);
+    Serial.print("  LEFT MOTORS: ");
+    Serial.println(leftSideMotors);
+
+    // set the motor value
+    if (rightSideMotors < 0)
+    {
+        rightSideMotors = 0;
+    }
+    if (leftSideMotors < 0)
+    {
+        leftSideMotors = 0;
+    }
+
+    analogWrite(ENALeftFirst, leftSideMotors);
+    analogWrite(ENALeftSecond, leftSideMotors);
+    analogWrite(ENALeftThird, leftSideMotors);
+    analogWrite(ENALeftFourth, leftSideMotors);
+
+    analogWrite(ENARightFirst, rightSideMotors);
+    analogWrite(ENARightSecond, rightSideMotors);
+    analogWrite(ENARightThird, rightSideMotors);
+    analogWrite(ENARightFourth, rightSideMotors);
 }
