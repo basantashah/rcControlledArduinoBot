@@ -1,0 +1,8 @@
+
+#define RC_NUM_CHANNELS 2
+
+#define RC_CH3  100
+#define RC_CH4  101
+
+#define RC_CH3_INPUT  11
+#define RC_CH4_INPUT  12
